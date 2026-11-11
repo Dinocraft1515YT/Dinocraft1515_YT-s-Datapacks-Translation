@@ -1,0 +1,36 @@
+gradle:
+ {
+    for.AnyTag:{
+        innerContent.takeFrom=(dc15yt-rp)
+    },
+    for.tag(1.19-1.19.3):
+    [
+        zipName=(dc15yt-rp-1.19-1.19.3.zip)
+    ],
+    for.tag(1.19.4):
+    [
+        zipName=(dc15yt-rp-1.19.4.zip)
+    ],
+    for.tag(1.20-1.20.1):
+    [
+        zipName=(dc15yt-rp-1.20-1.20.1.zip)
+    ],
+    for.tag(1.20.2-∞):
+    [
+        zipName=(dc15yt-rp-1.20.2-∞.zip)
+    ],
+    for.tag!(1.20.2-∞):
+    [
+        replaceFile=(dc15yt-rp/pack.mcmeta) with tagRespectiveFile= for.tag:[
+            if tag=(1.19-1.19.3):{
+                then tagRespectiveFile=(pack.mcmeta/dc15yt-rp-1.19-1.19.3/pack.mcmeta)
+            },
+            if tag=(1.19.4):{
+                then tagRespectiveFile=(pack.mcmeta/dc15yt-rp-1.19.4/pack.mcmeta)
+            },
+            if tag=(1.20-1.20.1):{
+                then tagRespectiveFile=(pack.mcmeta/dc15yt-rp-1.20-1.20.1/pack.mcmeta)
+            }
+        ]
+    ]
+ }

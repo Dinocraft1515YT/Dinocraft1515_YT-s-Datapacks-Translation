@@ -2,9 +2,48 @@ plugins {
     id 'base'
 }
 
+def releaseVariants = [
+    '1.19-1.19.3': [
+        archiveFileName: 'dc15yt-rp-1.19-1.19.3.zip',
+        packMetadata: file('pack.mcmeta/dc15yt-rp-1.19-1.19.3/pack.mcmeta')
+    ],
+    '1.19.4': [
+        archiveFileName: 'dc15yt-rp-1.19.4.zip',
+        packMetadata: file('pack.mcmeta/dc15yt-rp-1.19.4/pack.mcmeta')
+    ],
+    '1.20-1.20.1': [
+        archiveFileName: 'dc15yt-rp-1.20-1.20.1.zip',
+        packMetadata: file('pack.mcmeta/dc15yt-rp-1.20-1.20.1/pack.mcmeta')
+    ],
+    '1.20.2-∞': [
+        archiveFileName: 'dc15yt-rp-1.20.2-∞.zip',
+        packMetadata: null
+    ]
+]
+
+def releaseTag = providers.gradleProperty('releaseTag').orNull
+def releaseVariant = releaseTag == null ? null : releaseVariants[releaseTag]
+
+if (releaseTag != null && releaseVariant == null) {
+    throw new GradleException("Unsupported release tag: ${releaseTag}")
+}
+
 tasks.register('zipResourcePack', Zip) {
-    from(layout.projectDirectory.dir('dc15yt-rp'))
-    archiveFileName = 'dc15yt-rp.zip'
+    from(layout.projectDirectory.dir('dc15yt-rp')) {
+        if (releaseVariant?.packMetadata != null) {
+            exclude('pack.mcmeta')
+        }
+    }
+
+    if (releaseVariant == null) {
+        archiveFileName = 'dc15yt-rp.zip'
+    } else {
+        archiveFileName = releaseVariant.archiveFileName
+        if (releaseVariant.packMetadata != null) {
+            from(releaseVariant.packMetadata)
+        }
+    }
+
     destinationDirectory = layout.buildDirectory.dir('distributions')
 }
 
