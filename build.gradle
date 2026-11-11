@@ -1,0 +1,13 @@
+plugins {
+    id 'base'
+}
+
+tasks.register('zipResourcePack', Zip) {
+    from(layout.projectDirectory.dir('dc15yt-rp'))
+    archiveFileName = 'dc15yt-rp.zip'
+    destinationDirectory = layout.buildDirectory.dir('distributions')
+}
+
+tasks.named('assemble') {
+    dependsOn(tasks.named('zipResourcePack'))
+}
